@@ -1,35 +1,34 @@
 ---
 name: Task / Feature / Bug
-about: Универсальный шаблон для задач, фич, багов, рефакторинга и документации проекта
-  Оркестратор.
+about: Universal template
 title: "[Task]: "
 labels: bug, documentation, enhancement
 assignees: rudast
 
 ---
 
-## Что нужно сделать?
+## What needs to be done?
 
-Кратко опиши задачу.
-
----
-
-## Зачем это нужно?
-
-Почему эта задача важна для проекта?
+Briefly describe the task.
 
 ---
 
-## Что должно получиться?
+## Why is this needed?
 
-- [ ] 
-- [ ] 
-- [ ] 
+Why is this task important for the project?
 
 ---
 
-## Как проверить?
+## Expected Outcome
 
-- [ ] Запускается без ошибок
-- [ ] Работает основной сценарий
-- [ ] Добавлены тесты, если нужны
+- [ ]
+- [ ]
+- [ ]
+
+---
+
+## How to Verify
+
+- [ ] Runs without errors
+- [ ] Main workflow works as expected
+- [ ] Tests added if necessary
