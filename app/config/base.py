@@ -1,3 +1,5 @@
+from functools import lru_cache
+
 from pydantic_settings import BaseSettings
 from pydantic_settings import SettingsConfigDict
 
@@ -17,4 +19,6 @@ class Config(BaseSettings):
     )
 
 
-config: Config = Config()
+@lru_cache(maxsize=1)
+def get_config() -> Config:
+    return Config()
