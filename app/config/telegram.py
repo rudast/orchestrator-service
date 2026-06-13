@@ -3,4 +3,4 @@ from pydantic import HttpUrl, SecretStr, BaseModel
 
 class TelegramConfig(BaseModel):
     token: SecretStr
-    proxy_url: HttpUrl
+    proxy_url: HttpUrl | None = None

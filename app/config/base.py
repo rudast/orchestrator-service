@@ -7,7 +7,7 @@ from app.config.telegram import TelegramConfig
 class Config(BaseSettings):
     debug: bool = False
 
-    telegram: TelegramConfig = None
+    telegram: TelegramConfig
 
     model_config = SettingsConfigDict(
         env_prefix="APP_",

@@ -7,16 +7,18 @@ from aiogram.enums import ParseMode
 from aiogram.exceptions import TelegramConflictError, TelegramNetworkError
 from aiogram.utils.token import TokenValidationError
 
+from app.bot.handlers.start import router
 from app.config.base import config
-from handlers.start import router
 
 logger = logging.getLogger(__name__)
 
 
-async def startup():
-    session = AiohttpSession(
-        proxy=config.telegram.proxy_url.unicode_string()
-    )
+async def startup() -> None:
+    session = None
+    if config.telegram.proxy_url:
+        session = AiohttpSession(
+            proxy=config.telegram.proxy_url.unicode_string()
+        )
 
     bot = Bot(
         token=config.telegram.token.get_secret_value(),
@@ -43,7 +45,7 @@ async def startup():
         logger.critical("Another telegram bot is already running")
 
     except TelegramNetworkError:
-        logger.critical("Telegram network error")
+        logger.exception("Unhandled exception during bot startup")
 
     except Exception as e:
         logger.critical(e)
