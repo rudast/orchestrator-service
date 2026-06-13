@@ -1,9 +1,11 @@
 import asyncio
-import logging
-import sys
 
 from app.bot.settings import startup
+from app.utils.logging import setup_logging
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO, stream=sys.stdout)
-    asyncio.run(startup())
+    setup_logging()
+    try:
+        asyncio.run(startup())
+    except KeyboardInterrupt:
+        pass
