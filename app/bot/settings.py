@@ -6,6 +6,7 @@ from aiogram.client.session.aiohttp import AiohttpSession
 from aiogram.enums import ParseMode
 from aiogram.exceptions import TelegramConflictError, TelegramNetworkError
 from aiogram.utils.token import TokenValidationError
+from pydantic import ValidationError
 
 from app.bot.handlers.start import router
 from app.config.base import get_config
@@ -17,18 +18,20 @@ async def startup() -> None:
     bot = None
     session = None
 
-    if get_config().telegram.proxy_url:
-        session = AiohttpSession(
-            proxy=get_config().telegram.proxy_url.unicode_string()
-        )
-
     dispatcher = Dispatcher()
 
     try:
+        config = get_config()
+
+        if config.telegram.proxy_url:
+            session = AiohttpSession(
+                proxy=config.telegram.proxy_url.unicode_string()
+            )
+
         logger.info('Starting up telegram bot')
 
         bot = Bot(
-            token=get_config().telegram.token.get_secret_value(),
+            token=config.telegram.token.get_secret_value(),
             session=session,
             default=DefaultBotProperties(
                 parse_mode=ParseMode.HTML
@@ -47,10 +50,13 @@ async def startup() -> None:
         logger.critical("Another telegram bot is already running")
 
     except TelegramNetworkError:
-        logger.critical("Telegram network error during bot startup")
+        logger.exception("Telegram network error during bot startup")
+
+    except ValidationError:
+        logger.critical("Invalid application configuration")
 
     except Exception as e:
-        logger.exception(e)
+        logger.exception(f"Unhandled exception during bot startup: {e}")
 
     finally:
         logger.info('Closing bot connection')
