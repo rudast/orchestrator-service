@@ -13,14 +13,16 @@ class CenterFormatter(logging.Formatter):
             record.levelname = original
 
 
-def setup_logging() -> None:
+def setup_logging(debug: bool = False) -> None:
     formatter = CenterFormatter("%(asctime)s | %(levelname)s | %(name)s | %(message)s")
     console_handler = logging.StreamHandler(sys.stdout)
     console_handler.setFormatter(formatter)
 
+    level = logging.DEBUG if debug else logging.INFO
     logging.basicConfig(
-        level=logging.INFO,
+        level=level,
         handlers=[
             console_handler,
         ],
+        force=True,
     )
