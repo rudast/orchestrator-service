@@ -23,6 +23,7 @@ async def create_task(message: Message) -> None:
         return
 
     if not message.from_user:
+        await message.answer("User is not found")
         logger.warning("User id is none")
         return
 
@@ -33,7 +34,7 @@ async def create_task(message: Message) -> None:
 @router.message(Command("tasks"))
 async def get_tasks(message: Message) -> None:
     if not message.from_user:
-        await message.answer("User is not foung")
+        await message.answer("User is not found")
         logger.warning("User id is none")
         return
 
