@@ -24,4 +24,5 @@ def setup_logging(debug: bool = False) -> None:
         handlers=[
             console_handler,
         ],
+        force=True,
     )

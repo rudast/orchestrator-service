@@ -24,15 +24,13 @@ async def startup() -> None:
     try:
         config = get_config()
 
-        logger.debug(f"Telegram proxy enabled: {bool(config.telegram.proxy_url)}")
+        logger.info(f"Telegram proxy enabled: {bool(config.telegram.proxy_url)}")
         if config.telegram.proxy_url:
             session = AiohttpSession(
                 proxy=config.telegram.proxy_url.unicode_string()
             )
-            logger.info(f"Telegram proxy: {config.telegram.proxy_url.unicode_string()}")
 
-
-        logger.info('Starting up telegram bot')
+        logger.info("Starting up telegram bot")
 
         bot = Bot(
             token=config.telegram.token.get_secret_value(),
@@ -43,7 +41,7 @@ async def startup() -> None:
         )
 
         await bot.get_me()
-        logger.debug(f"Including routers")
+        logger.debug("Including routers")
         dispatcher.include_routers(start_router, task_router)
 
         await dispatcher.start_polling(bot)

@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 @router.message(Command("task"))
-async def create_task(message: Message):
+async def create_task(message: Message) -> None:
     if not message.text:
         await message.answer("Write task after command /task")
         return
@@ -27,4 +27,4 @@ async def create_task(message: Message):
         return
 
     task_service.add_task(title=title, user_id=message.from_user.id)
-    await message.answer("Task added")
+    await message.answer(f"Task added: {title}")
