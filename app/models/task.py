@@ -4,6 +4,6 @@ from pydantic import BaseModel
 
 
 class Task(BaseModel):
-    uuid: UUID
+    id: UUID
     title: str
     user_id: int

@@ -14,13 +14,13 @@ if __name__ == "__main__":
         config = get_config()
         setup_logging(config.debug)
 
-        logger.info(f"Debug mode {'enabled' if config.debug else 'disabled'}")
+        logger.info("Debug mode %s", 'enabled' if config.debug else 'disabled')
 
         logger.info("Starting application")
         asyncio.run(startup())
 
     except ValidationError:
-        logger.error("Validation error")
+        logger.exception("Validation error")
 
     except KeyboardInterrupt:
         logger.info("Application stopped")

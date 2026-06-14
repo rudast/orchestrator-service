@@ -12,13 +12,13 @@ class TaskService:
 
     def add_task(self, title: str, user_id: int) -> Task:
         current = Task(
-            uuid=uuid.uuid7(),
+            id=uuid.uuid7(),
             title=title,
             user_id=user_id
         )
 
         self._tasks.append(current)
-        logger.debug(f"Added task {current}")
-        logger.debug(f"Current count of tasks: {len(self._tasks)}")
+        logger.debug("Added task %s", {current})
+        logger.debug("Current count of tasks: %s", {len(self._tasks)})
 
         return current
