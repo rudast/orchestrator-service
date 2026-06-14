@@ -27,4 +27,4 @@ async def create_task(message: Message) -> None:
         return
 
     task_service.add_task(title=title, user_id=message.from_user.id)
-    await message.answer(f"Task added: {title}")
+    await message.answer(f"Task added: title")

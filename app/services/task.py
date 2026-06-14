@@ -18,7 +18,7 @@ class TaskService:
         )
 
         self._tasks.append(current)
-        logger.debug("Added task %s", {current})
-        logger.debug("Current count of tasks: %s", {len(self._tasks)})
+        logger.debug("Added task %s", current)
+        logger.debug("Current count of tasks: %s", len(self._tasks))
 
         return current

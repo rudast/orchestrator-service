@@ -59,7 +59,7 @@ async def startup() -> None:
         logger.critical("Invalid application configuration")
 
     except Exception as e:
-        logger.exception(f"Unhandled exception during bot startup: {e}")
+        logger.exception("Unhandled exception during bot startup: %s", e)
 
     finally:
         logger.info('Closing bot connection')
