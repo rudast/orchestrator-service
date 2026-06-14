@@ -13,6 +13,7 @@ logger = logging.getLogger(__name__)
 @router.message(Command("task"))
 async def create_task(message: Message) -> None:
     if not message.text:
+        await message.answer("Write task after command /task")
         logger.warning("Message text is none")
         return
 
@@ -27,25 +28,27 @@ async def create_task(message: Message) -> None:
 
     task_service.add_task(title=title, user_id=message.from_user.id)
     await message.answer(f"Task added: {title}")
-    await message.delete()
 
 
 @router.message(Command("tasks"))
 async def get_tasks(message: Message) -> None:
     if not message.from_user:
+        await message.answer("User is not foung")
         logger.warning("User id is none")
         return
 
     user_id = message.from_user.id
     tasks = task_service.get_tasks(user_id)
 
-    if not len(tasks):
+    if not tasks:
         await message.answer("No tasks found")
         return
 
-    text = "Your current tasks:\n\n"
-    for task in tasks:
-        text += f"\t - {task.title}\n"
+    task_lines = [
+        f"\t- {task.title}"
+        for task in tasks
+    ]
+
+    text = "Your current tasks:\n\n" + "\n".join(task_lines)
 
     await message.answer(text)
-    await message.delete()

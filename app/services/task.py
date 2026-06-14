@@ -23,8 +23,5 @@ class TaskService:
 
         return current
 
-    def remove_task(self, task_id: int) -> Task:
-        pass
-
-    def get_tasks(self, user_id) -> list[Task]:
+    def get_tasks(self, user_id: int) -> list[Task]:
         return [task for task in self._tasks if task.user_id == user_id]
