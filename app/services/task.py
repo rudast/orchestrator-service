@@ -22,3 +22,6 @@ class TaskService:
         logger.debug("Current count of tasks: %s", len(self._tasks))
 
         return current
+
+    def get_tasks(self, user_id: int) -> list[Task]:
+        return [task for task in self._tasks if task.user_id == user_id]
