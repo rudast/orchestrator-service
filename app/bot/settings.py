@@ -8,7 +8,8 @@ from aiogram.exceptions import TelegramConflictError, TelegramNetworkError
 from aiogram.utils.token import TokenValidationError
 from pydantic import ValidationError
 
-from app.bot.handlers.start import router
+from app.bot.handlers.start import router as start_router
+from app.bot.handlers.task import router as task_router
 from app.config.base import get_config
 
 logger = logging.getLogger(__name__)
@@ -23,10 +24,13 @@ async def startup() -> None:
     try:
         config = get_config()
 
+        logger.debug(f"Telegram proxy enabled: {bool(config.telegram.proxy_url)}")
         if config.telegram.proxy_url:
             session = AiohttpSession(
                 proxy=config.telegram.proxy_url.unicode_string()
             )
+            logger.info(f"Telegram proxy: {config.telegram.proxy_url.unicode_string()}")
+
 
         logger.info('Starting up telegram bot')
 
@@ -39,7 +43,8 @@ async def startup() -> None:
         )
 
         await bot.get_me()
-        dispatcher.include_router(router)
+        logger.debug(f"Including routers")
+        dispatcher.include_routers(start_router, task_router)
 
         await dispatcher.start_polling(bot)
 
