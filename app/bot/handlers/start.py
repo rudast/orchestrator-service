@@ -8,3 +8,4 @@ router = Router(name=__name__)
 @router.message(CommandStart())
 async def start(message: Message) -> None:
     await message.answer("Hello World!")
+    await message.delete()
