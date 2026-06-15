@@ -66,33 +66,33 @@ async def delete_task(message: Message) -> None:
     user_id = message.from_user.id
 
     if not message.text:
-        await message.answer("Use /delete_task {id}")
+        await message.answer("Use /delete_task {number}")
         logger.warning("Message text is none")
         return
 
-    task_id = message.text.removeprefix("/delete_task").strip()
+    task_number = message.text.removeprefix("/delete_task").strip()
 
-    if not task_id:
-        await message.answer("Use /delete_task {id}")
-        logger.warning("Task id is none")
+    if not task_number:
+        await message.answer("Use /delete_task {number}")
+        logger.warning("Task number is none")
         return
 
-    task_id = task_id.split()[0]
+    task_number = task_number.split()[0]
 
-    logger.debug("Current task id: %s", task_id)
-    if not str.isdigit(task_id):
-        await message.answer("Task id is invalid")
-        logger.warning("Task id is invalid")
+    logger.debug("Current task number: %s", task_number)
+    if not str.isdigit(task_number):
+        await message.answer("Task number is invalid")
+        logger.warning("Task number is invalid")
         return
 
-    task_id = int(task_id)
+    task_number = int(task_number)
 
     try:
-        task_service.remove_task(user_id, task_id)
-        await message.answer("Task removed")
-        logger.info("Task removed")
+        task = task_service.remove_task(user_id, task_number)
+        await message.answer(f"Task removed: {task.title}")
+        logger.info("Task removed: %s", task.id)
     except TaskNotFoundException:
         await message.answer("Task not found")
-        logger.warning("Task not found")
+        logger.warning("Task not found by user_id: %s", user_id)
     except InvalidTaskNumberException:
-        await message.answer("Invalid task number")
+        await message.answer("Invalid task number by user_id %s", user_id)

@@ -27,14 +27,18 @@ class TaskService:
     def get_tasks(self, user_id: int) -> list[Task]:
         return [task for task in self._tasks if task.user_id == user_id]
 
-    def remove_task(self, user_id: int, task_id: int) -> None:
-        if task_id <= 0:
+    def remove_task(self, user_id: int, task_number: int) -> Task:
+        if task_number <= 0:
             raise InvalidTaskNumberException
 
-        current = [task for task in self._tasks if task.user_id == user_id]
+        user_tasks = [task for task in self._tasks if task.user_id == user_id]
 
-        if task_id > len(current):
+        if task_number > len(user_tasks):
             raise TaskNotFoundException
 
-        logger.debug("Removed task %s", current[task_id - 1])
-        self._tasks.remove(current[task_id - 1])
+        logger.debug("Removed task %s", user_tasks[task_number - 1])
+
+        task = user_tasks[task_number - 1]
+        self._tasks.remove(user_tasks[task_number - 1])
+
+        return task
