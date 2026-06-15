@@ -2,7 +2,8 @@
 
 ## Purpose
 
-Telegram bot is important layer of project. It helps with interaction between user and orchestrator. It has few command
+Telegram bot is interface layer of project. It helps with interaction between user and orchestrator. It has a few
+commands
 for working with tasks.
 
 ## Entry point
@@ -27,15 +28,15 @@ app/
         settings.py # Setup up bot and polling
     models/         # Pydantic models
         task.py     
-    service/        # Services for handling
+    services/        # Services for handling
         task.py
     utils/          # Another tools
-    logging.py       
+        logging.py       
 ```
 
 ## Bot startup flow
 
-Bot instance in `app/bot/settings.py` as Dispatcher object. List of routers must be in the same file. Polling starts in
+Bot and Dispatcher are created in app/bot/settings.py. List of routers must be in the same file. Polling starts in
 `app/bot/settings.py`, in the same place session is closed.
 
 ## Handlers
@@ -48,13 +49,14 @@ app/bot/handlers/
                 task.py
 ```
 
-start.py has handler that process start command. While task.py process all command that interact with task managing.
+start.py has handler that processes the /start command. While task.py process all task-related commands that interact
+with task managing.
 
 ## Services
 
 ### TaskService
 
-TaskService has few methods for managing tasks. It uses temporary storage for tasks. It can create, check and delete
+TaskService has few methods for managing tasks. It uses temporary storage for tasks. It can create, list and delete
 tasks.
 
 ## Commands
@@ -74,6 +76,7 @@ tasks.
 4. Connect handler to router
 5. Add new service if it's necessary
 6. Update docs
+7. Update this document
 
 ## Current limitations
 
