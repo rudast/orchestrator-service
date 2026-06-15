@@ -2,6 +2,7 @@ import logging
 import uuid
 
 from app.models.task import Task
+from app.services.exceptions import InvalidTaskNumberException, TaskNotFoundException
 
 logger = logging.getLogger(__name__)
 
@@ -25,3 +26,15 @@ class TaskService:
 
     def get_tasks(self, user_id: int) -> list[Task]:
         return [task for task in self._tasks if task.user_id == user_id]
+
+    def remove_task(self, user_id: int, task_id: int) -> None:
+        if task_id <= 0:
+            raise InvalidTaskNumberException
+
+        current = [task for task in self._tasks if task.user_id == user_id]
+
+        if task_id > len(current):
+            raise TaskNotFoundException
+
+        logger.debug("Removed task %s", current[task_id - 1])
+        self._tasks.remove(current[task_id - 1])

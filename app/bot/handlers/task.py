@@ -5,6 +5,7 @@ from aiogram.filters.command import Command
 from aiogram.types import Message
 
 from app.services import task_service
+from app.services.exceptions import TaskNotFoundException, InvalidTaskNumberException
 
 router = Router(name=__name__)
 logger = logging.getLogger(__name__)
@@ -46,10 +47,52 @@ async def get_tasks(message: Message) -> None:
         return
 
     task_lines = [
-        f"\t- {task.title}"
-        for task in tasks
+        f"\t{i + 1}) {task.title}"
+        for i, task in enumerate(tasks)
     ]
 
     text = "Your current tasks:\n\n" + "\n".join(task_lines)
 
     await message.answer(text)
+
+
+@router.message(Command("delete_task"))
+async def delete_task(message: Message) -> None:
+    if not message.from_user:
+        await message.answer("User is not found")
+        logger.warning("User id is none")
+        return
+
+    user_id = message.from_user.id
+
+    if not message.text:
+        await message.answer("Use /delete_task {id}")
+        logger.warning("Message text is none")
+        return
+
+    task_id = message.text.removeprefix("/delete_task").strip()
+
+    if not task_id:
+        await message.answer("Use /delete_task {id}")
+        logger.warning("Task id is none")
+        return
+
+    task_id = task_id.split()[0]
+
+    logger.debug("Current task id: %s", task_id)
+    if not str.isdigit(task_id):
+        await message.answer("Task id is invalid")
+        logger.warning("Task id is invalid")
+        return
+
+    task_id = int(task_id)
+
+    try:
+        task_service.remove_task(user_id, task_id)
+        await message.answer("Task removed")
+        logger.info("Task removed")
+    except TaskNotFoundException:
+        await message.answer("Task not found")
+        logger.warning("Task not found")
+    except InvalidTaskNumberException:
+        await message.answer("Invalid task number")
