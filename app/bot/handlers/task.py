@@ -66,14 +66,14 @@ async def delete_task(message: Message) -> None:
     user_id = message.from_user.id
 
     if not message.text:
-        await message.answer("Use /delete_task {number}")
+        await message.answer("Use /delete_task 1")
         logger.warning("Message text is none")
         return
 
     task_number = message.text.removeprefix("/delete_task").strip()
 
     if not task_number:
-        await message.answer("Use /delete_task {number}")
+        await message.answer("Use /delete_task 1")
         logger.warning("Task number is none")
         return
 
@@ -95,4 +95,5 @@ async def delete_task(message: Message) -> None:
         await message.answer("Task not found")
         logger.warning("Task not found by user_id: %s", user_id)
     except InvalidTaskNumberException:
-        await message.answer("Invalid task number by user_id %s", user_id)
+        await message.answer("Invalid task number")
+        logger.warning("Invalid task number by user_id %s", user_id)

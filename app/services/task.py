@@ -36,9 +36,9 @@ class TaskService:
         if task_number > len(user_tasks):
             raise TaskNotFoundException
 
-        logger.debug("Removed task %s", user_tasks[task_number - 1])
-
         task = user_tasks[task_number - 1]
-        self._tasks.remove(user_tasks[task_number - 1])
+        logger.debug("Removed task %s", task)
+
+        self._tasks.remove(task)
 
         return task
