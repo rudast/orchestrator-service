@@ -1,10 +1,13 @@
 from sqlalchemy import Column, Integer
+from sqlalchemy.orm import relationship
 
 from app.models import Base
 
 
-class User(Base):
-    __tablename__ = 'user'
+class UserModel(Base):
+    __tablename__ = 'users'
 
-    id = Column(Integer, primary_key=True, index=True, nullable=False, autoincrement=True, unique=True)
-    tg_id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, index=True, nullable=False, autoincrement=True)
+    tg_id = Column(Integer, nullable=False, unique=True)
+
+    tasks = relationship('TaskModel', back_populates='user')
