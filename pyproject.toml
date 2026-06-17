@@ -1,7 +1,7 @@
 [project]
 name = "orchestrator-service"
 version = "0.1.0"
-requires-python = ">=3.14"
+requires-python = ">=3.12"
 dependencies = [
     "aiogram>=3.28.2",
     "aiohttp-socks>=0.11.0",
@@ -10,5 +10,9 @@ dependencies = [
     "pydantic>=2.13.4",
     "pydantic-settings>=2.14.1",
     "sqlalchemy>=2.0.51",
+]
+
+[dependency-groups]
+dev = [
     "uliweb-alembic>=0.6.9",
 ]

@@ -7,7 +7,7 @@ from app.models import Base
 class UserModel(Base):
     __tablename__ = 'users'
 
-    id = Column(Integer, primary_key=True, index=True, nullable=False, autoincrement=True)
+    id = Column(Integer, primary_key=True)
     tg_id = Column(Integer, nullable=False, unique=True)
 
     tasks = relationship('TaskModel', back_populates='user')

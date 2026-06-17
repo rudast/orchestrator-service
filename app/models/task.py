@@ -16,7 +16,7 @@ class Task(BaseModel):
 class TaskModel(Base):
     __tablename__ = 'tasks'
 
-    id = Column(Integer, primary_key=True, autoincrement=True, nullable=False, index=True)
+    id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     title = Column(String(100), nullable=False)
     is_completed = Column(Boolean, nullable=False, default=False)
