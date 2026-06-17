@@ -3,12 +3,14 @@ from functools import lru_cache
 from pydantic_settings import BaseSettings
 from pydantic_settings import SettingsConfigDict
 
+from app.config.database import PostgresConfig
 from app.config.telegram import TelegramConfig
 
 
 class Config(BaseSettings):
     debug: bool = False
     telegram: TelegramConfig
+    postgres: PostgresConfig
 
     model_config = SettingsConfigDict(
         env_prefix="APP_",
