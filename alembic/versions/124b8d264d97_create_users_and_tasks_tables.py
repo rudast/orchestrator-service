@@ -26,7 +26,6 @@ def upgrade() -> None:
                     sa.PrimaryKeyConstraint('id'),
                     sa.UniqueConstraint('tg_id')
                     )
-    op.create_index(op.f('ix_users_id'), 'users', ['id'], unique=False)
     op.create_table('tasks',
                     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
                     sa.Column('user_id', sa.Integer(), nullable=False),
@@ -36,7 +35,6 @@ def upgrade() -> None:
                     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
                     sa.PrimaryKeyConstraint('id')
                     )
-    op.create_index(op.f('ix_tasks_id'), 'tasks', ['id'], unique=False)
     # ### end Alembic commands ###
 
 
